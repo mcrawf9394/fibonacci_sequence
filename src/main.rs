@@ -1,19 +1,25 @@
 use std::io;
-use rand::Rng;
+
 fn main() {
-    println!("Guess the number!");
-
-    let secret_number = rand::thread_rng().gen_range(1..=100);
-
-    println!("The secret number is: {secret_number}");
-
-    println!("Please input your guess.");
-
-    let mut guess = String::new();
-
+    println!("Enter Number");
+    let mut num: String = String::new();
     io::stdin()
-        .read_line(&mut guess)
+        .read_line(&mut num)
         .expect("Failed to read line");
-
-    println!("You guessed: {guess}");
+    let num: i32 = num.trim().parse().expect("please enter a number");
+    let mut current_number: i32 = 2;
+    let mut previous_number: i32 = 1;
+    if num < 3 {
+        println!("1")
+    } else if num == 3 {
+        println!("2")
+    } else {
+        for _i in 4..=num {
+            let new_num: i32 = previous_number + current_number;
+            previous_number = current_number;
+            current_number = new_num;
+        }
+        println!("{current_number} is the current number of the sequence");
+        println!("{} is an approximation of Phi using the last two numbers of the sequence", current_number as f32 / previous_number as f32)
+    }
 }
